@@ -8,11 +8,13 @@
 
 import UIKit
 
+/// Label names for the different types of star wars entities
 struct AttributeLabels {
     static let characterLabels = ["Born", "Home", "Height", "Eyes", "Hair"]
     static let vehicleLabels = ["Make", "Cost", "Length", "Class", "Crew"]
 }
 
+/// Enum to represent the attribute labels
 enum AttributeValueLabel: Int {
     case name
     case birthOrMake
@@ -48,6 +50,7 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     var lastSelectedIndex = 0
     var type: EntityType = .characters
     
+    /// Set up the entities
     var starWarsEntities: [StarWarsEntity]? {
         didSet {
             guard let loadedEntities = starWarsEntities else { fatalError() }
@@ -61,6 +64,7 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     }
     
     // MARK: - View Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isUserInteractionEnabled = false
@@ -73,6 +77,7 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         
         // UI Set Up
         configureAttributeLabels(for: type)
+        loadingView.isHidden = false
         
         entityPicker.delegate = self
         entityPicker.dataSource = dataSource
@@ -80,10 +85,18 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        
         let statusBarColor = UIColor(red: 27/255, green: 33/255, blue: 37/255, alpha: 1.0)
         setStatusBarBackgroundColor(color: statusBarColor)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: loadingView!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: loadingView!, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: loadingView!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: loadingView!, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0)
+        ])
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -92,8 +105,8 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     
     // MARK: - Actions
     
+    /// Used to switch the currecy by using a segment control ui element
     @IBAction func switchCurrency(_ sender: Any) {
-        
         switch currencySegControl.selectedSegmentIndex {
         case 0:
             setValueOnAlert(title: "Set Exchange Rate", message: "Please set an exchange rate for Credits to USD.", label: entityValueLabels.first(where: {$0.tag == AttributeValueLabel.homeOrCost.rawValue})!)
@@ -102,9 +115,9 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
             entityValueLabels.first(where: { $0.tag == AttributeValueLabel.homeOrCost.rawValue })?.text  = "\(vehicle.cost!)"
         default: break
         }
-        
     }
     
+    /// Used to  switch the units by using a segment control ui eelment
     @IBAction func switchUnits(_ sender: Any) {
         switch unitSegControl.selectedSegmentIndex {
         case 0:
@@ -115,6 +128,7 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /// Used to load vehicles from the API associated with the character
     @IBAction func showCharacterVehicles(_ sender: UIButton) {
         showVehiclesButton.isHidden = true
         showStarshipsButton.isHidden = true
@@ -146,6 +160,7 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         
     }
     
+    /// Used to load starships from the API associated with the character
     @IBAction func showCharacterStarships(_ sender: UIButton) {
         showVehiclesButton.isHidden = true
         showStarshipsButton.isHidden = true
@@ -177,6 +192,7 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
 
     }
     
+    /// The back button to return to the current selected character
     @IBAction func showCharacters(_ sender: UIButton) {
         showCharactersButton.isHidden = true
         type = .characters
@@ -194,6 +210,16 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     
     // MARK: - Helper Methods
     
+    /**
+     Sets up and shows an Alert to set the currency rate
+     
+     - Parameters:
+     - title: The title of the alert
+     - message: The message of the alert
+     - style: The style, default is alert
+     
+     - Returns: Void
+     */
     func setValueOnAlert(title: String, message: String, label: UILabel) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let setAction = UIAlertAction(title: "Set", style: .default, handler: { [unowned alertController] _ in
@@ -211,6 +237,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         present(alertController, animated: false, completion: nil)
     }
     
+    /**
+      Confi
+     
+     - Parameters:
+         - type: The title of the alert
+     
+     - Returns: Void
+     */
     func configureAttributeLabels(for type: EntityType) {
         if type == .characters {
             entityAttributeLabels.first(where: {$0.tag == 0 })?.text = AttributeLabels.characterLabels[0]

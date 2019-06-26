@@ -8,20 +8,21 @@
 
 import Foundation
 
+/// API Client
 class StarWarsAPIClient {
     
     /// Properties
     let jsonDecoder = JSONDecoder()
-    let session: URLSession
-    
-    init(configuration: URLSessionConfiguration) {
-        self.session = URLSession(configuration: configuration)
-    }
-    
-    convenience init() {
-        self.init(configuration: .default)
-    }
-    
+
+    /**
+     Gets all people from the API using recursion
+     
+     - Parameters:
+         -pageNumber: the page number used to retrieve the characters from
+         -completion: The completion handler to be called when the task is completed or an error is thrown
+     
+     - Returns: Void.
+     */
     func getAllCharacters(pageNumber: Int = 1, completionHandler completion: @escaping (Characters?, Error?) -> Void) {
         
         let endpoint = StarWarsEntityEndpoint.people(page: pageNumber)
@@ -58,6 +59,15 @@ class StarWarsAPIClient {
         
     }
     
+    /**
+     Gets all vehicles from the API
+     
+     - Parameters:
+         -pageNumber: the page number used to retrieve the vehicles from
+         -completion: The completion handler to be called when the task is completed or an error is thrown
+     
+     - Returns: Void.
+     */
     func getAllVehicles(pageNumber: Int = 1, completionHandler completion: @escaping (Vehicles?, Error?) -> Void) {
         
         let endpoint = StarWarsEntityEndpoint.vehicles(page: pageNumber)
@@ -88,11 +98,19 @@ class StarWarsAPIClient {
                 
             }
             
-            
         }
         
     }
     
+    /**
+     Gets all starships from the API
+     
+     - Parameters:
+         -pageNumber: the page number used to retrieve the vehicles from
+         -completion: The completion handler to be called when the task is completed or an error is thrown
+     
+     - Returns: Void.
+     */
     func getAllStarships(pageNumber: Int = 1, completionHandler completion: @escaping (Starships?, Error?) -> Void) {
         
         let endpoint = StarWarsEntityEndpoint.starships(page: pageNumber)
@@ -124,6 +142,15 @@ class StarWarsAPIClient {
         
     }
     
+    /**
+     Gets all vehicles from the API using an array of URLs
+     
+     - Parameters:
+     -urls: the page number used to retrieve the vehicles from
+     -completion: The completion handler to be called when the task is completed or an error is thrown
+     
+     - Returns: Void.
+     */
     func getVehicles(urls: [URL], completionHandler completion: @escaping ([Vehicle]?, Error?) -> Void) {
         
         var entities = [Vehicle]()
@@ -155,6 +182,15 @@ class StarWarsAPIClient {
         
     }
     
+    /**
+     Gets all starships from the API using an array of URLs
+     
+     - Parameters:
+     -urls: the page number used to retrieve the starships from
+     -completion: The completion handler to be called when the task is completed or an error is thrown
+     
+     - Returns: Void.
+     */
     func getStarships(urls: [URL], completionHandler completion: @escaping ([Starship]?, Error?) -> Void) {
         
         var entities = [Starship]()
@@ -187,6 +223,14 @@ class StarWarsAPIClient {
         
     }
     
+    /**
+     Check whether a next page exists on the currect page.
+     
+     - Parameters:
+        - entities: Generic Entities type that can be used to check all types conforming to StarWarsObjectPage
+     
+     - Returns: Bool.
+     */
    func isNextPage<Entities: StarWarsObjectPage>(in entities: Entities) -> Bool {
         var isNext = false
         
@@ -202,7 +246,7 @@ class StarWarsAPIClient {
      
      - Parameters:
         - characters: The object used to get the URL with the name of homeworld
-        - completion:
+        - completion: The completion handler to be called when the task is completed or an error is thrown
      
      - Returns: Void.
      */
@@ -242,11 +286,11 @@ class StarWarsAPIClient {
     }
     
     /**
-     Performs a datatask request using the Downloader Object
+     Performs a datatask request using the task created in the Downloader()
      
      - Parameters:
         - request: The request used to perform.
-        - completion: @escaping completionhandler which returns an optional Data Object or an optional StarWarsAPIError
+        - completion: The completion handler to be called when the task is completed or an error is thrown
      
      - Returns: Void.
      */

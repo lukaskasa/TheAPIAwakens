@@ -8,15 +8,12 @@
 
 import Foundation
 
+/// Errors to be thrown using the Star Wars API
 enum StarWarsAPIError: Error {
     case invalidURL
-    
     case invalidData
-    
     case jsonConversionFailure
     case jsonParsingFailure(message: String)
-    
-    
     case requestFailed
     case responseUnsuccessful
 }

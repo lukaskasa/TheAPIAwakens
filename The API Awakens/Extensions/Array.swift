@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Gets the largest and smallest characters from an array of Character based on the height
 extension Array where Element == Character {
     
     func getLargest() -> String {
@@ -39,6 +40,7 @@ extension Array where Element == Character {
     }
 }
 
+/// Gets the largest and smallest vehicle from an array of Vehicle based on the length
 extension Array where Element == Vehicle {
     
     func getLargest() -> String {
@@ -70,6 +72,7 @@ extension Array where Element == Vehicle {
     }
 }
 
+/// Gets the largest and smallest starship from an array of Vehicle based on the length
 extension Array where Element == Starship {
     
     func getLargest() -> String {

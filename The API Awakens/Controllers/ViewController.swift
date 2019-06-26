@@ -13,7 +13,8 @@ class ViewController: UIViewController {
     // Properties
     let client = StarWarsAPIClient()
     var allEntities = [StarWarsEntity]()
-
+    
+    /// View Life Cyle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,10 +26,12 @@ class ViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    // Sets the status bar style to light
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
+    /// Executed when a particular segue is about to be performed
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let starWarsEntityViewController =  segue.destination as! StarWarsEntityViewController
@@ -65,7 +68,6 @@ class ViewController: UIViewController {
                 starWarsEntityViewController.starWarsEntities = self.allEntities
                 starWarsEntityViewController.selectedEntity = self.allEntities.first
                 
-                
                 if error != nil {
                      self.showAlertWith(title: "Error", message: error!.localizedDescription)
                 }
@@ -94,7 +96,15 @@ class ViewController: UIViewController {
         }
     }
     
-    
+    /**
+     Checks if data operation is still continuing by checking if a next page exist if not the child view controller is configured
+     
+     - Parameters:
+        -segue: The target segue
+        -entities: Generic type Entities conforming to StarWarsObjectPage - to be checked
+     
+     - Returns: Void.
+     */
     func checkIfLoading<Entites: StarWarsObjectPage>(segue: UIStoryboardSegue, entities: Entites) {
         let starWarsEntityViewController = segue.destination as! StarWarsEntityViewController
         if !client.isNextPage(in: entities) {

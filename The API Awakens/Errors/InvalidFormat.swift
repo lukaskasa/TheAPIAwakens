@@ -9,5 +9,6 @@
 import Foundation
 
 enum InvalidFormat: Error {
+    /// Error to be thrown when a number is needed but a different type is provided
     case notANumber
 }
