@@ -417,10 +417,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         
         if Double(selectedVehicle.cost!) == nil {
             currencySegControl.isEnabled = false
+        } else {
+            currencySegControl.isEnabled = true
         }
         
         if Double(selectedVehicle.length) == nil {
             unitSegControl.isEnabled = false
+        } else {
+            unitSegControl.isEnabled = true
         }
     }
     
@@ -548,8 +552,6 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        unitSegControl.isEnabled = true
-        currencySegControl.isEnabled = true
         selectedEntity = selectedEntities[row]
         unitSegControl.selectedSegmentIndex = 1
         currencySegControl.selectedSegmentIndex = 1
