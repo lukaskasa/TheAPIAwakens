@@ -27,6 +27,7 @@ enum AttributeValueLabel: Int {
 class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     
     // MARK: - Outlets
+    @IBOutlet var labelConstraints: [NSLayoutConstraint]!
     @IBOutlet var entityAttributeLabels: [UILabel]!
     @IBOutlet var entityValueLabels: [UILabel]!
     @IBOutlet var entityPicker: UIPickerView!
@@ -91,12 +92,23 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     
     override func viewWillLayoutSubviews() {
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: loadingView!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: loadingView!, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: loadingView!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: loadingView!, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0)
-        ])
+        
+        if #available(iOS 11, *) {
+            let guide = view.safeAreaLayoutGuide
+            NSLayoutConstraint.activate([
+                loadingView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 0),
+                loadingView.rightAnchor.constraint(equalTo: guide.rightAnchor, constant: 0),
+                loadingView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: 0),
+                loadingView.leftAnchor.constraint(equalTo: guide.leftAnchor, constant: 0)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                loadingView.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0),
+                loadingView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
+                loadingView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.bottomAnchor, constant: 0),
+                loadingView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0)
+            ])
+        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -238,10 +250,10 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     }
     
     /**
-      Confi
+     Sets up the descrptive labels for the different characters and vehicles/starships accordingly
      
      - Parameters:
-         - type: The title of the alert
+        - type: Type of entity
      
      - Returns: Void
      */
@@ -261,6 +273,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Update the value labels for characters using the correct viewmodel
+     
+     - Parameters:
+     - character: Type of entity
+     
+     - Returns: Void
+     */
     func updateUI(for character: Character) {
         let viewModel = StarWarsCharacterViewModel(from: character)
         for label in entityValueLabels {
@@ -281,6 +301,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Update the value labels for vehicles using the correct viewmodel
+     
+     - Parameters:
+     - character: Type of entity
+     
+     - Returns: Void
+     */
     func updateUI(for vehicle: Vehicle) {
         let viewModel = StarWarsVehicleViewModel(from: vehicle)
         for label in entityValueLabels {
@@ -301,6 +329,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Update the value labels for starships using the correct viewmodel
+     
+     - Parameters:
+     - character: Type of entity
+     
+     - Returns: Void
+     */
     func updateUI(for starship: Starship) {
         let viewModel = StarWarsVehicleViewModel(from: starship)
         for label in entityValueLabels {
@@ -320,6 +356,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Update labels using the correct data according to the index in array
+     
+     - Parameters:
+        - row: Index in the array used to get the data from
+     
+     - Returns: Void
+     */
     func updateLabels(for row: Int) {
         if type == .characters {
             guard let character = selectedEntities[row] as? Character else { return }
@@ -333,6 +377,14 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Update labels using the correct data according to the index in array
+     
+     - Parameters:
+     - row: Index in the array used to get the data from
+     
+     - Returns: Void
+     */
     func toggleButtons() {
         showVehiclesButton.isHidden = true
         showStarshipsButton.isHidden = true
@@ -352,6 +404,31 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         
     }
     
+    /**
+     Toggle the segment controls if the type is valid for conversion else hide the control by putting the alpha to 0
+     
+     - Parameters:
+        - selected: Selected entity to be passed
+     
+     - Returns: Void
+     */
+    func toggleSegmentControls(for selected: StarWarsEntity?) {
+        guard let selectedVehicle = selected as? Vehicle else { return }
+        
+        if Double(selectedVehicle.cost!) == nil {
+            currencySegControl.isEnabled = false
+        }
+        
+        if Double(selectedVehicle.length) == nil {
+            unitSegControl.isEnabled = false
+        }
+    }
+    
+    /**
+     Gets the original height and length of the entity when switching back orginal selection
+     
+     - Returns: Void
+     */
     func getOriginal() -> String {
         switch self.type {
         case .characters:
@@ -366,6 +443,11 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Converts height for characters and length for vehicles/starships accordingly
+     
+     - Returns: Void
+     */
     func convertToInches() -> Double {
         var converted = Double()
         
@@ -392,13 +474,25 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         return converted
     }
     
+    /**
+    Converts credits into USD using a user set multiplier
+     
+     - Parameters:
+     - rate: The conversion rate to be used
+     
+     - Returns: Void
+     */
     func convertToUSD(with rate: Double?) -> Double {
         guard let selectedVehicle = selectedEntity as? Vehicle else { fatalError() }
         guard let rate = rate else { fatalError() }
-        // TODO: 
         return rate * Double(selectedVehicle.cost!)!
     }
     
+    /**
+     Sets the smallest label for the Starwars entities
+     
+     - Returns: Void
+     */
     func setSmallestLabel() {
         if type == .characters {
             guard let entities = starWarsEntities as? [Character] else { return }
@@ -412,6 +506,11 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    /**
+     Sets the largest label for the Starwars entities
+     
+     - Returns: Void
+     */
     func setLargestLabel() {
         if type == .characters {
             guard let entities = starWarsEntities as? [Character] else { return }
@@ -425,6 +524,15 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
+    
+    /**
+     Method to pick the status bar color
+     
+     - Parameters:
+        - color: The color to be used for the status bar
+     
+     - Returns: Void
+     */
     func setStatusBarBackgroundColor(color: UIColor) {
         guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
         navigationController?.navigationBar.isTranslucent = false
@@ -440,9 +548,12 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        unitSegControl.isEnabled = true
+        currencySegControl.isEnabled = true
         selectedEntity = selectedEntities[row]
         unitSegControl.selectedSegmentIndex = 1
         currencySegControl.selectedSegmentIndex = 1
+        toggleSegmentControls(for: selectedEntity)
         toggleButtons()
         updateLabels(for: row)
     }

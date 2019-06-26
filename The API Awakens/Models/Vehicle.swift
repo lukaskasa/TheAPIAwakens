@@ -65,7 +65,8 @@ class Vehicle: StarWarsVehicle, Decodable {
         // 1 Foot = 12 inches
         // 1 Meter = 3 feet 3⅜
         // e.g. 1.8 * 39,37 / 12
-        return ((Double(self.length)! * Units.oneMeterInInches) / Units.oneFootInInches).rounded(toPlaces: 2)
+        guard let length = Double(self.length) else { fatalError() }
+        return ((length * Units.oneMeterInInches) / Units.oneFootInInches).rounded(toPlaces: 2)
     }
     
 }

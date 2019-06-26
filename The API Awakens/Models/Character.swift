@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Units used to convert between english and meters
 struct Units {
     static let oneMeterInInches: Double = 39.37
     static let oneFootInInches: Double = 12
@@ -28,6 +29,7 @@ struct Character: StarWarsCharacter, StarWarsEntity {
     
     let vehicles: [URL] // New Request
     let starships: [URL] // New Request
+    
     
     func convertToInches() -> Double? {
         // 1 Meter = 39,37 inches

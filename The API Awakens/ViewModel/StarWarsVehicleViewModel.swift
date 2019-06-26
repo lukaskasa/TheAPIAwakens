@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// ViewModel for the Vehicle(Starship) Type
 struct StarWarsVehicleViewModel {
     let name: String
     let vehicleManufacturer: String

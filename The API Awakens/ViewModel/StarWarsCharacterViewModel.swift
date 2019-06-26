@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// ViewModel for the Character Type
 struct StarWarsCharacterViewModel {
     let client = StarWarsAPIClient()
     let name: String
