@@ -75,24 +75,18 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
             currencySegControl.isEnabled = false
             currencySegControl.alpha = 0
         }
-        
+
         // UI Set Up
         configureAttributeLabels(for: type)
         loadingView.isHidden = false
-        
+
         entityPicker.delegate = self
         entityPicker.dataSource = dataSource
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        let statusBarColor = UIColor(red: 27/255, green: 33/255, blue: 37/255, alpha: 1.0)
-        setStatusBarBackgroundColor(color: statusBarColor)
-    }
-    
     override func viewWillLayoutSubviews() {
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         if #available(iOS 11, *) {
             let guide = view.safeAreaLayoutGuide
             NSLayoutConstraint.activate([
@@ -112,7 +106,12 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            // Fallback on earlier versions
+            return .default
+        }
     }
     
     // MARK: - Actions
@@ -528,22 +527,6 @@ class StarWarsEntityViewController: UIViewController, UIPickerViewDelegate {
         }
     }
     
-    
-    /**
-     Method to pick the status bar color
-     
-     - Parameters:
-        - color: The color to be used for the status bar
-     
-     - Returns: Void
-     */
-    func setStatusBarBackgroundColor(color: UIColor) {
-        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-        navigationController?.navigationBar.isTranslucent = false
-        statusBar.backgroundColor = color
-    }
-    
-
     // MARK: - Picker View Delegate
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

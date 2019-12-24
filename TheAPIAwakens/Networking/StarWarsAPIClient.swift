@@ -164,7 +164,6 @@ class StarWarsAPIClient {
                     return
                 }
                 
-                
                 do {
                     let entity = try self.jsonDecoder.decode(Vehicle.self, from: entity)
                     entities.append(entity)

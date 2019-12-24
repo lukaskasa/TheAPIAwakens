@@ -76,7 +76,7 @@
 		8054E52122AD532A00EE3ED6 = {
 			isa = PBXGroup;
 			children = (
-				8054E52C22AD532A00EE3ED6 /* The API Awakens */,
+				8054E52C22AD532A00EE3ED6 /* TheAPIAwakens */,
 				8054E52B22AD532A00EE3ED6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,7 +89,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8054E52C22AD532A00EE3ED6 /* The API Awakens */ = {
+		8054E52C22AD532A00EE3ED6 /* TheAPIAwakens */ = {
 			isa = PBXGroup;
 			children = (
 				80F760F122B550F50023E5B7 /* Errors */,
@@ -104,7 +104,7 @@
 				8054E52D22AD532A00EE3ED6 /* AppDelegate.swift */,
 				8054E53922AD532A00EE3ED6 /* Info.plist */,
 			);
-			path = "The API Awakens";
+			path = TheAPIAwakens;
 			sourceTree = "<group>";
 		};
 		8054E54122AD569000EE3ED6 /* Models */ = {
@@ -228,7 +228,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8054E52522AD532A00EE3ED6 /* Build configuration list for PBXProject "The API Awakens" */;
+			buildConfigurationList = 8054E52522AD532A00EE3ED6 /* Build configuration list for PBXProject "TheAPIAwakens" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -361,7 +361,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -416,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -430,15 +430,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 95K8REC8NW;
-				INFOPLIST_FILE = "The API Awakens/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/TheAPIAwakens/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lukaskasakaitis.The-API-Awakens";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukaskasakaitis.TheAPIAwakens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -448,15 +450,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 95K8REC8NW;
-				INFOPLIST_FILE = "The API Awakens/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/TheAPIAwakens/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lukaskasakaitis.The-API-Awakens";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukaskasakaitis.TheAPIAwakens;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -465,7 +469,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8054E52522AD532A00EE3ED6 /* Build configuration list for PBXProject "The API Awakens" */ = {
+		8054E52522AD532A00EE3ED6 /* Build configuration list for PBXProject "TheAPIAwakens" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8054E53A22AD532A00EE3ED6 /* Debug */,
